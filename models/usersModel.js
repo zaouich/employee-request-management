@@ -1,6 +1,7 @@
 const { Schema, model } = require("mongoose");
 const validator = require("validator")
 const bcrypt = require("bcrypt")
+const crypto = require("crypto")
 const userSchema = new Schema({
     userName:{
         type:String,
@@ -62,6 +63,9 @@ userSchema.pre("save",function(next){
     if(! this.isModified("password")) return next()
     this.password = bcrypt.hashSync(this.password,12) 
     this.confirmPassword = undefined
+    if(! this.isNew){
+        this.changedAt = new Date()
+    }
     next()
 })
 userSchema.pre(/^find/,function(next){
@@ -71,6 +75,17 @@ userSchema.pre(/^find/,function(next){
 userSchema.methods.isCorrectPassword = async function(condidatPassword){
     if(!await  bcrypt.compare(condidatPassword ,this.password)) return false
     return true
+}
+userSchema.methods.isChangedPassword = async function(creationDate){
+    if(!this.changedAt) return false 
+    return  parseInt(this.changedAt.getTime()/1000) > creationDate
+}
+userSchema.methods.createResetToken = async function(){
+    const token =  crypto.randomBytes(32).toString("hex")
+    const _token = crypto.createHash("sha256").update(token).digest("hex")
+    this.resetToken = _token
+    this.expiresResetToken = new Date(Date.now() + 10*60*1000)
+    return token
 }
 const User = model("User",userSchema)
 module.exports = User
