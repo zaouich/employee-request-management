@@ -11,5 +11,5 @@ module.exports = app
 
 app.use("/api/v1/users",usersRouter)
 app.use("/api/v1/companys",companysRouter)
-app.use("/api/v1/memberShipsRouter",companysRouter)
+app.use("/api/v1/memberShipsRouter",memberShipsRouter)
 app.use(errController)

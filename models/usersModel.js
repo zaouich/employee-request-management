@@ -20,8 +20,10 @@ const userSchema = new Schema({
     role:{
         type:String,
         required:[true,"please provide a role"],
-        enum:["admin","employee"],
-        message:'can be only admin or employee'
+        enum:{
+            values:["admin","employee"],
+            message:'can be only admin or employee'
+        },
     },
     email:{
         type : String,
