@@ -5,7 +5,11 @@ const app = express()
 app.use(express.json())
 app.use(cookiePasrser())
 const usersRouter = require("./routes/usersRouter")
+const companysRouter = require("./routes/companysRouter")
+const memberShipsRouter = require("./routes/memberShipsRouter")
 module.exports = app
 
 app.use("/api/v1/users",usersRouter)
+app.use("/api/v1/companys",companysRouter)
+app.use("/api/v1/memberShipsRouter",companysRouter)
 app.use(errController)

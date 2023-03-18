@@ -4,6 +4,13 @@ const User = require("../models/usersModel")
 const AppError = require("../utils/AppError")
 const catchAsync = require("../utils/catchAsync")
 const sendMail = require("../utils/sendMail")
+
+const checkPassword = catchAsync(async(req,res,next)=>{
+    const {password} = req.body
+    const user = await User.findById(req.user._id)
+    if(!password ||! await user.isCorrectPassword(password)) return next(new AppError(401,"enter a valid password"))
+    next()
+})
 const checkLogin = async(req,res,next)=>{
     if(!req.cookies.jwt){
         return next(new AppError(401,"please login first"))
@@ -17,6 +24,12 @@ const checkLogin = async(req,res,next)=>{
     if(await user.isChangedPassword(jwt_verified.iat)) return next(new AppError(400,"the user has been change his password"))
     req.user = user
     next()
+}
+const restrictTo = (...roles) =>{
+    return (req,res,next)=>{
+        if(! roles.includes(req.user.role) ) return next(new AppError(400,"you are not allowed to do that as an employee"))
+        next()
+    }
 }
 const passport = (req,res,user)=>{
     const jwt_ = jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:process.env.JWT_EXPIRES})
@@ -110,4 +123,4 @@ const resetPassword = catchAsync(async(req,res,next)=>{
     await user.save()
     passport(req,res,user)
 })
-module.exports = {signUp,login,checkLogin,updateMe,deleteMe,updatePassword,forgotPassword,resetPassword}
+module.exports = {signUp,login,checkLogin,updateMe,deleteMe,updatePassword,forgotPassword,resetPassword,restrictTo,checkPassword}
