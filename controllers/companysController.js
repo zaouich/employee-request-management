@@ -25,8 +25,14 @@ const getResult = (req,res,data,statusCode)=>{
     })
 }
 const getAllCompanys =catchAsync(async (req,res,next)=>{
-    const companys = await Company.find()
+   if(req.user.role == "admin"){
+    const companys = await Company.find({createdBy:req.user._id})
     getResult(req,res,companys,200)
+   }
+   else{
+       const companys = await Company.find(query)
+       getResult(req,res,companys,200)
+   }
 })
 const getOneCompany = catchAsync(async(req,res,next)=>{
     const company =await Company.findById(req.params.id)

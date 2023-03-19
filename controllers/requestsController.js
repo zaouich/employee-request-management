@@ -19,7 +19,8 @@ const getData = (req,res,data,statusCode)=>{
     })
 }
 const getAllRequests = catchAsync(async(req,res,next)=>{ // get all the company quests | checkLogin , check admin , check company owner + exicts |get /companys/id/requests
-    const requests =await Request.find({company:req.params.id})
+    
+    const requests =await Request.find({validate_:req.query.validate_,company:req.params.id})
     getData(req,res,requests,200)
     
 })
