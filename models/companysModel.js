@@ -1,6 +1,7 @@
 const { Schema, mongoose, model } = require("mongoose");
 const validator = require("validator");
 const MemberShip = require("./memberShipsModel");
+const Request = require("./requestsModel");
 const companyShcema = new Schema({
     name : {
         type:String,
@@ -38,6 +39,7 @@ companyShcema.pre("save",function(next){
 })
 companyShcema.post('findOneAndDelete',async function(doc, next) {
     await MemberShip.findOneAndDelete({company:doc._id})
+    await Request.findOneAndDelete({company:doc._id})
   });
 const Company = model("Company",companyShcema)
 module.exports = Company

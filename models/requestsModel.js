@@ -3,7 +3,7 @@ const { mongoose ,Schema , model} = require("mongoose");
 const requestSchema = new Schema({
     createdAt : {
         type:Date,
-        required:true
+        default : Date.now()
     },
     user:{
         type:mongoose.Schema.ObjectId,
@@ -24,10 +24,15 @@ const requestSchema = new Schema({
         type:String,
         enum:{
             values:["watting","regected","accepted"],
-            message:'can be only admin or employee'
+            message:'can be only watting or regected or accepted'
         },
         default:"watting"
     }
 })
+requestSchema.pre(/^find/,function(next){
+    this.find().populate("user","-password")
+    next()
+})
+
 const Request = model("Request",requestSchema)
 module.exports = Request
