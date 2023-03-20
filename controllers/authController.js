@@ -142,4 +142,4 @@ const resetPassword = catchAsync(async(req,res,next)=>{
     await user.save()
     passport(req,res,user)
 })
-module.exports = {signUp,login,checkLogin,updateMe,deleteMe,updatePassword,forgotPassword,resetPassword,restrictTo,checkPassword}
+module.exports = {signUp,login,checkLogin,updateMe,deleteMe,updatePassword,forgotPassword,resetPassword,restrictTo,checkPassword,checkLoginWithoutErrors}
