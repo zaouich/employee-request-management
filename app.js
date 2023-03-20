@@ -1,9 +1,14 @@
 const express = require("express")
 const cookiePasrser = require("cookie-parser")
 const errController = require("./controllers/errController")
+const cors = require("cors")
 const app = express()
+
 app.use(express.json())
 app.use(cookiePasrser())
+app.use(cors({
+    origin:"http://localhost:3001"
+}))
 const usersRouter = require("./routes/usersRouter")
 const companysRouter = require("./routes/companysRouter")
 const memberShipsRouter = require("./routes/memberShipsRouter")
