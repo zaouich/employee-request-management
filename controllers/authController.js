@@ -5,6 +5,12 @@ const AppError = require("../utils/AppError")
 const catchAsync = require("../utils/catchAsync")
 const sendMail = require("../utils/sendMail")
 
+const sendUser = (res,user)=>{
+    res.status(200).json({
+        status:"success",
+        user
+    })
+}
 const checkPassword = catchAsync(async(req,res,next)=>{
     const {password} = req.body
     const user = await User.findById(req.user._id)
@@ -24,6 +30,19 @@ const checkLogin = async(req,res,next)=>{
     if(await user.isChangedPassword(jwt_verified.iat)) return next(new AppError(400,"the user has been change his password"))
     req.user = user
     next()
+}
+const checkLoginWithoutErrors = async(req,res,next)=>{
+    if(!req.cookies.jwt){
+        return sendUser(res,null)
+    }
+    const jwt_ = req.cookies.jwt
+    const jwt_verified =  jwt.verify(jwt_,process.env.JWT_SECRET)
+    // check if the user still exicts
+    const user =await User.findById(jwt_verified.id)
+    if(!user) return sendUser(res,null)
+    // check if the user changed his password
+    if(await user.isChangedPassword(jwt_verified.iat)) return sendUser(res,null)
+    sendUser(res,user)
 }
 const restrictTo = (...roles) =>{
     return (req,res,next)=>{
