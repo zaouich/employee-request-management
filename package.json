@@ -177,6 +177,7 @@
     "raw-body": "^2.5.1",
     "rc": "^1.2.8",
     "react-router-dom": "^6.9.0",
+    "react-toastify": "^9.1.1",
     "readable-stream": "^3.6.0",
     "readdirp": "^3.6.0",
     "rimraf": "^3.0.2",
