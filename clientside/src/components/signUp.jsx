@@ -53,7 +53,7 @@ const SignUp = ()=>{
                             set(setCofirmPassword,e)
                         }}/></div>
                         <div class="mb-3">
-                            <div class="form-check"><input id="formCheck-1" class="form-check-input" name="type "type="radio" value="employee" onChange={(e)=>{
+                            <div class="form-check"><input checked id="formCheck-1" class="form-check-input" name="type "type="radio" value="employee" onChange={(e)=>{
                                 setRole(e.target.value)
                             }} /><label class="form-check-label" for="formCheck-1">employee</label></div>
                             <div class="form-check"><input id="formCheck-2" class="form-check-input" value="admin" name="type "type="radio"  onChange={(e)=>{
