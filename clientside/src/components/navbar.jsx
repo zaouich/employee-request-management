@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
+
 const Navbar = ()=>{
     const [user,setUser] = useState(null)
     useEffect(()=>{
