@@ -4,7 +4,7 @@ import { useState } from "react"
 const ForgotPassword = ()=>{
     const [email,setEmail] = useState(null)
     const sendEmail = ()=>{
-        axios.post("http://127.0.0.1:3000/api/v1/users/forgotPassword",{email}).then((data)=>alert("sent to your email")).catch(err=>alert("error during sending mail"))
+        axios.post("http://127.0.0.1:3000/api/v1/users/forgetPassword",{email}).then((data)=>alert("sent to your email")).catch(err=>console.log(err.data.request))
     }
     return(
         <div class="row pt-5">
