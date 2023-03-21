@@ -6,8 +6,13 @@ const app = express()
 
 app.use(express.json())
 app.use(cookiePasrser())
+app.use((req,res,next)=>{
+    console.log(req.cookies)
+    next()
+})
 app.use(cors({
-    origin:"http://localhost:3001"
+    origin:"http://localhost:3001",
+    credentials:true
 }))
 const usersRouter = require("./routes/usersRouter")
 const companysRouter = require("./routes/companysRouter")
