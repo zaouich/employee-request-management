@@ -29,10 +29,7 @@ const requestSchema = new Schema({
         default:"watting"
     }
 })
-requestSchema.pre(/^find/,function(next){
-    this.find().populate("user","-password")
-    next()
-})
+
 
 const Request = model("Request",requestSchema)
 module.exports = Request
