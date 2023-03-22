@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
+axios.defaults.withCredentials = true
 
 const Navbar = ()=>{
     const [user,setUser] = useState(null)
     useEffect(()=>{
         axios.get("http://127.0.0.1:3000/api/v1/users/loged").then((data)=>{
+            console.log(data)
             console.log(data.data.user)
             setUser(data.data.user)
         })
