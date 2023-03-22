@@ -60,6 +60,16 @@ const userSchema = new Schema({
         default :true
     }
 
+},{toJSON:{virtuals:true},toObject:{virtuals:true}})
+userSchema.virtual("companys",{
+    ref:"Company",
+    foreignField:"user",
+    localField:"_id"
+})
+userSchema.virtual("requests",{
+    ref:"Request",
+    foreignField:"user",
+    localField:"_id"
 })
 // hashing the password
 userSchema.pre("save",function(next){
@@ -72,7 +82,7 @@ userSchema.pre("save",function(next){
     next()
 })
 userSchema.pre(/^find/,function(next){
-    this.find({active:true})
+    this.find({active:true}).populate("companys").populate("requests")
     next()
 })
 userSchema.methods.isCorrectPassword = async function(condidatPassword){
