@@ -1,7 +1,15 @@
 import axios from "axios"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 const SignUp = ()=>{
+    const [user,setUser] = useState(null)
+    useEffect(()=>{
+        axios.get("http://127.0.0.1:3000/api/v1/users/loged",{withCredentials:true}).then((data)=>{
+            console.log(data)
+            console.log(data.data.user)
+            setUser(data.data.user)
+        })
+    })
     const [userName,setUserName]= useState(null)
     const [firstName,setFirstName]= useState(null)
     const [lastName,setLastName]= useState(null)
