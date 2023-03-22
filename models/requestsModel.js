@@ -1,4 +1,5 @@
 const { mongoose ,Schema , model} = require("mongoose");
+const User = require("./usersModel");
 
 const requestSchema = new Schema({
     createdAt : {
@@ -12,6 +13,9 @@ const requestSchema = new Schema({
     company:{
         type:mongoose.Schema.ObjectId,
         ref:"Company"
+    },
+    user_info :{
+        type:Object
     },
     type:{
         type:String,
@@ -28,8 +32,16 @@ const requestSchema = new Schema({
         },
         default:"watting"
     }
+},{toJSON:{virtuals:true},toObject:{virtuals:true}})
+
+requestSchema.pre("save",async function(next){
+    const user = await User.findById(this.user)
+    this.user_info = user
+
 })
-
-
+requestSchema.post(/^find/,function(doc){
+    doc.user_info = {a:"jio"}
+    
+})
 const Request = model("Request",requestSchema)
 module.exports = Request
