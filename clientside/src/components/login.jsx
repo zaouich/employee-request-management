@@ -1,7 +1,6 @@
 import { useState } from "react"
 import axios from "axios"
-import { ToastContainer, toast } from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+
 const Login = ()=>{
     const [email,setEmail] = useState("")
     const [password,SetPassword] = useState("")
@@ -25,6 +24,7 @@ const Login = ()=>{
                         e.preventDefault()
                         axios.post("http://127.0.0.1:3000/api/v1/users/login",{email,password}).then((data)=>{
                             alert("welcome back !")
+
                         }).catch((error)=>{
                             alert(error.response.data.message)
                         })
