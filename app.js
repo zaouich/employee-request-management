@@ -11,8 +11,8 @@ app.use((req,res,next)=>{
     next()
 })
 app.use(cors({
+    credentials:true,
     origin:"http://localhost:3001",
-    credentials:true
 }))
 const usersRouter = require("./routes/usersRouter")
 const companysRouter = require("./routes/companysRouter")
